@@ -87,12 +87,12 @@ const gamePlay = {
         // 結束
         const gameOver = GameObject => {
             this.gameStop = GameObject;
-            if(this.p2die&&this.p1die){
+            if (this.p2die && this.p1die) {
                 this.p1.anims.play('p1die', true);
                 this.p2.anims.play('p2die', true);
-            }else if(this.p2die){
+            } else if (this.p2die) {
                 this.p2.anims.play('p2die', true);
-            }else if(this.p1die){
+            } else if (this.p1die) {
                 this.p1.anims.play('p1die', true);
             }
             this.cameras.main.shake(500);
@@ -128,6 +128,13 @@ const gamePlay = {
         this.p2.setCollideWorldBounds(true);
         this.p2.setBodySize(screenH / 5, screenH / 4);
 
+        this.tnt = this.physics.add.sprite(screenW, screenH, 'tnt');
+        this.tnt.setScale(screenH / 1479 / 13); //設定顯示大小
+        this.tnt.setBodySize(1479 * 9 / 10, 1479 * 9 / 10);
+        this.tnt.setBounce(1);
+        this.tnt.setCollideWorldBounds(true);
+        this.blocks.add(this.tnt);
+
         //碰撞
         this.physics.add.collider(this.player, this.player);
         this.physics.add.collider(this.player, this.blocks);
@@ -146,9 +153,9 @@ const gamePlay = {
         }
         var detect = this.time.addEvent({
             delay: 100,
-            callback: ()=>{
+            callback: () => {
                 if (this.gameStop) return;
-                if(this.p2die||this.p1die) gameOver(true);
+                if (this.p2die || this.p1die) gameOver(true);
             },
             callbackScope: this,
             loop: true
