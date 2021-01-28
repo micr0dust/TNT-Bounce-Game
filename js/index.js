@@ -1,5 +1,5 @@
 const config = {
-    type: Phaser.AUTO,
+    type: Phaser.CANVAS,
     width: screenW,
     height: screenH,
     parent: 'app',

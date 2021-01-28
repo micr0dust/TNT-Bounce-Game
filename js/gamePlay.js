@@ -128,13 +128,6 @@ const gamePlay = {
         this.p2.setCollideWorldBounds(true);
         this.p2.setBodySize(screenH / 5, screenH / 4);
 
-        this.tnt = this.physics.add.sprite(screenW, screenH, 'tnt');
-        this.tnt.setScale(screenH / 1479 / 13); //設定顯示大小
-        this.tnt.setBodySize(1479 * 9 / 10, 1479 * 9 / 10);
-        this.tnt.setDepth(-1);
-        this.tnt.setCollideWorldBounds(true);
-        this.blocks.add(this.tnt);
-
         //碰撞
         this.physics.add.collider(this.player, this.player);
         this.physics.add.collider(this.player, this.blocks);
