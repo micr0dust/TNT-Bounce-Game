@@ -131,7 +131,7 @@ const gamePlay = {
         this.tnt = this.physics.add.sprite(screenW, screenH, 'tnt');
         this.tnt.setScale(screenH / 1479 / 13); //設定顯示大小
         this.tnt.setBodySize(1479 * 9 / 10, 1479 * 9 / 10);
-        this.tnt.setBounce(1);
+        this.tnt.setDepth(-1);
         this.tnt.setCollideWorldBounds(true);
         this.blocks.add(this.tnt);
 
