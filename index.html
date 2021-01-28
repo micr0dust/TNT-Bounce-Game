@@ -7,33 +7,87 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>TNT Bounce</title>
     <style>
-        * {
-            padding: 0;
+        body {
             margin: 0;
+            overflow: hidden;
+            background-color: black;
         }
 
-        html,
-        body {
+        #phaser-app {
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        canvas {
             width: 100%;
             height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow-y: hidden;
-            overflow-x: hidden;
-            background-color: black;
         }
     </style>
 </head>
 
 <body>
     <div id="app"></div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/3.52.0/phaser.min.js" integrity="sha512-2wu8HKyxH3r65DZuWEdiov7+mBVti4Kfjg9WTXNP8qitejYSBn2S+Kgi4M3ctlnA9qTDU6hyTsiqpIfFhQBY0Q==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/3.52.0/phaser.min.js"
+        integrity="sha512-2wu8HKyxH3r65DZuWEdiov7+mBVti4Kfjg9WTXNP8qitejYSBn2S+Kgi4M3ctlnA9qTDU6hyTsiqpIfFhQBY0Q=="
+        crossorigin="anonymous"></script>
     <script src="./js/const.js"></script>
     <script src="./js/gamePlay.js"></script>
     <script src="./js/gameStart.js"></script>
     <script src="./js/index.js"></script>
     <script src="./js/keyFrame.js"></script>
+    <script>
+        function resizeApp() {
+            if(!isdesktop) return;
+            let pre_screenW = window.innerWidth;
+            let pre_screenH = window.innerHeight;
+            let testVal;
+            if (pre_screenW < pre_screenH) {
+                testVal = pre_screenW;
+                pre_screenW = pre_screenH;
+                pre_screenH = testVal;
+            }
+            // Width-height-ratio of game resolution
+            let game_ratio = screenW / screenH;
+
+            // Make div full height of browser and keep the ratio of game resolution
+            let div = document.getElementById('app');
+            div.style.width = size((window.innerHeight * game_ratio)) + 'px';
+            div.style.height = size(window.innerHeight) + 'px';
+
+            // Check if device DPI messes up the width-height-ratio
+            let canvas = document.getElementsByTagName('canvas')[0];
+
+            canvas.style.width = size(window.innerWidth) + 'px';
+            canvas.style.height = size(window.innerHeight) + 'px';
+        }
+
+        // Add to resize event
+        window.addEventListener('resize', resizeApp);
+        function size(){}
+
+        // Set correct size when page loads the first time
+        resizeApp();
+        function detectmob() {
+            if (navigator.userAgent.match(/Android/i)
+                || navigator.userAgent.match(/webOS/i)
+                || navigator.userAgent.match(/iPhone/i)
+                || navigator.userAgent.match(/iPad/i)
+                || navigator.userAgent.match(/iPod/i)
+                || navigator.userAgent.match(/BlackBerry/i)
+                || navigator.userAgent.match(/Windows Phone/i)
+            ) {
+                if (window.DeviceOrientationEvent) {
+                    isdesktop=false;
+                }
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+    </script>
 </body>
 
 </html>

@@ -30,6 +30,9 @@ const gameStart = {
         this.btn.setScale(screenW/600/3,screenW/600/3)
         this.btn.setInteractive();
         this.btn.on('pointerdown',()=>{
+            if(!this.scale.isFullscreen){
+                this.scale.startFullscreen();
+            }
             this.sound.play('decision');
             this.scene.start('gamePlay');
             music.stop();
