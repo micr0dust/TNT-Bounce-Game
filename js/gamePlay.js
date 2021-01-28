@@ -9,7 +9,7 @@ const gamePlay = {
         this.load.spritesheet('p2', 'images/p2.png', { frameWidth: 231, frameHeight: 209 });
         this.load.spritesheet('tnt', 'images/tnt.png', { frameWidth: 1487, frameHeight: 1479 });
         this.load.plugin('rexvirtualjoystickplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexvirtualjoystickplugin.min.js', true);
-    
+
         this.load.audio('fuse', 'sounds/tnt/fuse.wav');
         this.load.audio('explode1', 'sounds/tnt/explode1.wav');
         this.load.audio('explode2', 'sounds/tnt/explode2.wav');
@@ -46,6 +46,8 @@ const gamePlay = {
         this.y1 = screenH / 13 / 2 + screenH / 13 * (Math.floor(Math.random() * (13 - 1 + 1) + 1) - 1);
         this.x2 = (screenW - screenH) / 2 + screenH / 13 / 2 + screenH / 13 * (Math.floor(Math.random() * (13 - 1 + 1) + 1) - 1);
         this.y2 = screenH / 13 / 2 + screenH / 13 * (Math.floor(Math.random() * (13 - 1 + 1) + 1) - 1);
+        this.p1die = false;
+        this.p2die = false;
 
 
         keyFrame(this);
@@ -82,8 +84,17 @@ const gamePlay = {
             GameObject.body.immovable = true;
             GameObject.body.moves = false;
         }
+        // 結束
         const gameOver = GameObject => {
             this.gameStop = GameObject;
+            if(this.p2die&&this.p1die){
+                this.p1.anims.play('p1die', true);
+                this.p2.anims.play('p2die', true);
+            }else if(this.p2die){
+                this.p2.anims.play('p2die', true);
+            }else if(this.p1die){
+                this.p1.anims.play('p1die', true);
+            }
             this.cameras.main.shake(500);
             this.player.remove(this.p1);
             this.player.remove(this.p2);
@@ -91,17 +102,17 @@ const gamePlay = {
             this.p1.setVelocityY(0);
             this.p2.setVelocityX(0);
             this.p2.setVelocityY(0);
-            this.time.delayedCall(2000,() => {
+            this.time.delayedCall(2000, () => {
                 this.cameras.main.fade(1000);
-                this.tnts=[];
-                this.time.delayedCall(1000,() => { this.scene.start("gamePlay"); });
+                this.tnts = [];
+                this.time.delayedCall(1000, () => { this.scene.start("gamePlay"); });
             });
         }
 
         addPhysics(this.scoreBackground1);
         addPhysics(this.scoreBackground2);
 
-
+        //p1
         this.p1 = this.physics.add.sprite(this.x1, this.y1, 'p1');
         this.p1.setScale(screenH / 209 / 13); //設定顯示大小
         this.p1.setDepth(1);
@@ -109,7 +120,7 @@ const gamePlay = {
         this.p1.setCollideWorldBounds(true);
         this.player.add(this.p1);
 
-
+        //p2
         this.p2 = this.physics.add.sprite(this.x2, this.y2, 'p2');
         this.p2.setScale(screenH / 209 / 13); //設定顯示大小
         this.p2.setDepth(1);
@@ -117,7 +128,7 @@ const gamePlay = {
         this.p2.setCollideWorldBounds(true);
         this.p2.setBodySize(screenH / 5, screenH / 4);
 
-        //blocks.anims.play('shing', true);
+        //碰撞
         this.physics.add.collider(this.player, this.player);
         this.physics.add.collider(this.player, this.blocks);
         this.physics.add.collider(this.blocks, this.blocks);
@@ -127,14 +138,21 @@ const gamePlay = {
         this.physics.add.overlap(this.p2, this.boom, null, p2die, this);
         function p1die() {
             if (this.gameStop) return;
-            this.p1.anims.play('p1die', true);
-            gameOver(true);
+            this.p1die = true;
         }
         function p2die() {
             if (this.gameStop) return;
-            this.p2.anims.play('p2die', true);
-            gameOver(true);
+            this.p2die = true;
         }
+        var detect = this.time.addEvent({
+            delay: 100,
+            callback: ()=>{
+                if (this.gameStop) return;
+                if(this.p2die||this.p1die) gameOver(true);
+            },
+            callbackScope: this,
+            loop: true
+        });
         var timedEvent = this.time.addEvent({
             delay: 1000,
             callback: () => {
@@ -152,33 +170,33 @@ const gamePlay = {
                 this.tnt.anims.play('shing', true);
                 this.sound.play('fuse');
                 this.tnts.push(this.tnt);
-                this.time.delayedCall(8000,() => {
+                this.time.delayedCall(8000, () => {
                     this.boomTnt = this.tnts.shift();
-                    if(!this.boomTnt) return;
+                    if (!this.boomTnt) return;
                     addPhysics(this.boomTnt);
                     this.blocks.remove(this.boomTnt);
                     this.boomTnt.anims.play('explore', true);
-                    this.type=Math.floor(Math.random() * (4 - 1 + 1) + 1);
-                    console.log(this.type)
-                    if(this.type===1){
+                    this.type = Math.floor(Math.random() * (4 - 1 + 1) + 1);
+                    if (this.type === 1) {
                         this.sound.play('explode1');
-                    }else if(this.type===2){
+                    } else if (this.type === 2) {
                         this.sound.play('explode2');
-                    }else if(this.type===3){
+                    } else if (this.type === 3) {
                         this.sound.play('explode3');
-                    }else{
+                    } else {
                         this.sound.play('explode4');
                     }
                     this.boom.add(this.boomTnt);
                     this.boomTnt.setScale(screenH / 1479 / 13 * 3);
-                    this.time.delayedCall(500,() => {
-                        if(!this.boomTnt) return;
+                    this.time.delayedCall(500, () => {
+                        if (!this.boomTnt) return;
                         this.boomTnt.destroy(true);
                     });
                 });
             },
             callbackScope: this,
-            loop: true });
+            loop: true
+        });
     },
     update: function () {
         // 遊戲狀態更新
