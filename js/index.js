@@ -3,6 +3,9 @@ const config = {
     width: screenW,
     height: screenH,
     parent: 'app',
+    input :{
+		activePointers:3
+	  },
     audio: {
         disableWebAudio: true
     },
