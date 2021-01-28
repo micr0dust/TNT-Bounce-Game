@@ -2,6 +2,7 @@ const gameStart = {
     key: 'gameStart',
     preload: function () {
         // 載入資源
+        this.scale.lockOrientation('landscape');
         this.load.image('bg1', 'images/bg1.png');
         this.load.image('bg2', 'images/bg2.png');
         this.load.image('bg3', 'images/bg3.png');
