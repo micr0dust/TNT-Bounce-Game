@@ -64,9 +64,6 @@ const gamePlay = {
             radius: (screenW - screenH) / 6,
             base: this.add.circle(0, 0, (screenW - screenH) / 6, 0x888888),
             thumb: this.add.circle(0, 0, (screenW - screenH) / 12, 0xcccccc),
-            // dir: '8dir',   // 'up&down'|0|'left&right'|1|'4dir'|2|'8dir'|3
-            // forceMin: 16,
-            // enable: true
         });
         this.joyStick1 = this.plugins.get('rexvirtualjoystickplugin').add(this, {
             x: screenW - (screenW - screenH) / 4,
@@ -74,9 +71,6 @@ const gamePlay = {
             radius: (screenW - screenH) / 6,
             base: this.add.circle(0, 0, (screenW - screenH) / 6, 0x888888),
             thumb: this.add.circle(0, 0, (screenW - screenH) / 12, 0xcccccc),
-            // dir: '8dir',   // 'up&down'|0|'left&right'|1|'4dir'|2|'8dir'|3
-            // forceMin: 16,
-            // enable: true
         });
 
         //if (this.device.desktop){console.log("desktop")}
@@ -195,8 +189,8 @@ const gamePlay = {
         const walk2 = way => {
             this.direct = way;
         }
-        let cursorKeys1 = this.joyStick1.createCursorKeys();
-        let cursorKeys = this.joyStick.createCursorKeys();
+        let cursorKeys = this.joyStick1.createCursorKeys();
+        let cursorKeys1 = this.joyStick.createCursorKeys();
         let force1 = Math.floor(this.joyStick1.force) / 100
         let force2 = Math.floor(this.joyStick.force) / 100
         if (force1 > 1) force1 = 1;
@@ -208,50 +202,50 @@ const gamePlay = {
 
         let cursors = this.input.keyboard.createCursorKeys();
         if (cursors.right.isDown || cursorKeys.right.isDown) {
-            walk2("r");
-            this.p2.setVelocityX(speed2);
+            walk1("r");
+            this.p1.setVelocityX(speed2);
         }
         if (cursors.left.isDown || cursorKeys.left.isDown) {
-            walk2("l");
-            this.p2.setVelocityX(-speed2);
+            walk1("l");
+            this.p1.setVelocityX(-speed2);
         }
         if (cursors.up.isDown || cursorKeys.up.isDown) {
-            walk2("u");
-            this.p2.setVelocityY(-speed2);
+            walk1("u");
+            this.p1.setVelocityY(-speed2);
         }
         if (cursors.down.isDown || cursorKeys.down.isDown) {
-            walk2("d");
-            this.p2.setVelocityY(speed2);
+            walk1("d");
+            this.p1.setVelocityY(speed2);
         }
         if (!cursors.up.isDown && !cursors.down.isDown && !cursorKeys.up.isDown && !cursorKeys.down.isDown) {
-            this.p2.setVelocityY(0);
+            this.p1.setVelocityY(0);
         }
         if (!cursors.right.isDown && !cursors.left.isDown && !cursorKeys.right.isDown && !cursorKeys.left.isDown) {
-            this.p2.setVelocityX(0);
+            this.p1.setVelocityX(0);
         }
 
         let p2 = this.input.keyboard.addKeys('W,S,A,D');
         if (p2.D.isDown || cursorKeys1.right.isDown) {
-            walk1("r");
-            this.p1.setVelocityX(speed1);
+            walk2("r");
+            this.p2.setVelocityX(speed1);
         }
         if (p2.A.isDown || cursorKeys1.left.isDown) {
-            walk1("l");
-            this.p1.setVelocityX(-speed1);
+            walk2("l");
+            this.p2.setVelocityX(-speed1);
         }
         if (p2.S.isDown || cursorKeys1.down.isDown) {
-            walk1("d");
-            this.p1.setVelocityY(speed1);
+            walk2("d");
+            this.p2.setVelocityY(speed1);
         }
         if (p2.W.isDown || cursorKeys1.up.isDown) {
-            walk1("u");
-            this.p1.setVelocityY(-speed1);
+            walk2("u");
+            this.p2.setVelocityY(-speed1);
         }
         if (!p2.W.isDown && !p2.S.isDown && !cursorKeys1.up.isDown && !cursorKeys1.down.isDown) {
-            this.p1.setVelocityY(0);
+            this.p2.setVelocityY(0);
         }
         if (!p2.D.isDown && !p2.A.isDown && !cursorKeys1.right.isDown && !cursorKeys1.left.isDown) {
-            this.p1.setVelocityX(0);
+            this.p2.setVelocityX(0);
         }
         if (this.direct === "u") this.p2.anims.play('u2', true);
         if (this.direct === "d") this.p2.anims.play('d2', true);
