@@ -33,6 +33,7 @@ const gameStart = {
             if(!this.scale.isFullscreen){
                 this.scale.startFullscreen();
             }
+            if(!this.scale.isFullscreen) return;
             this.sound.play('decision');
             this.scene.start('gamePlay');
             music.stop();

@@ -39,27 +39,14 @@
     <script src="./js/keyFrame.js"></script>
     <script>
         function resizeApp() {
-            let pre_screenW = window.innerWidth;
-            let pre_screenH = window.innerHeight;
+            let pre_screenW = window.screen.width;
+            let pre_screenH = window.screen.height;
             let testVal;
             if (pre_screenW < pre_screenH) {
                 testVal = pre_screenW;
                 pre_screenW = pre_screenH;
                 pre_screenH = testVal;
             }
-            // Width-height-ratio of game resolution
-            let game_ratio = screenW / screenH;
-
-            // Make div full height of browser and keep the ratio of game resolution
-            let div = document.getElementById('app');
-            div.style.width = size((window.innerHeight * game_ratio)) + 'px';
-            div.style.height = size(window.innerHeight) + 'px';
-
-            // Check if device DPI messes up the width-height-ratio
-            let canvas = document.getElementsByTagName('canvas')[0];
-
-            canvas.style.width = size(window.innerWidth) + 'px';
-            canvas.style.height = size(window.innerHeight) + 'px';
         }
 
         // Add to resize event
