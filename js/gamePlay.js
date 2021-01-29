@@ -116,7 +116,7 @@ const gamePlay = {
         this.p1 = this.physics.add.sprite(this.x1, this.y1, 'p1');
         this.p1.setScale(screenH / 209 / 13); //設定顯示大小
         this.p1.setDepth(1);
-        this.p1.setBodySize(screenH / 5, screenH / 4);
+        this.p1.setBodySize(231 * 6 / 10,209 * 9 / 10);
         this.p1.setCollideWorldBounds(true);
         this.player.add(this.p1);
 
@@ -126,7 +126,7 @@ const gamePlay = {
         this.p2.setDepth(1);
         this.player.add(this.p2);
         this.p2.setCollideWorldBounds(true);
-        this.p2.setBodySize(screenH / 5, screenH / 4);
+        this.p2.setBodySize(231 * 6 / 10,209 * 9 / 10);
 
         //碰撞
         this.physics.add.collider(this.player, this.player);
