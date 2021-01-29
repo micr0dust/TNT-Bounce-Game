@@ -6,7 +6,6 @@ if(pre_screenW<pre_screenH){
     pre_screenW=pre_screenH;
     pre_screenH=testVal;
 }
-let isdesktop=true;
 const screenW = pre_screenW;
 const screenH = pre_screenH;
 const speed = 5;
