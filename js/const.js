@@ -1,5 +1,5 @@
-let pre_screenW=window.innerWidth;
-let pre_screenH=window.innerHeight;
+let pre_screenW=window.screen.width;
+let pre_screenH=window.screen.height;
 let testVal;
 if(pre_screenW<pre_screenH){
     testVal=pre_screenW;
